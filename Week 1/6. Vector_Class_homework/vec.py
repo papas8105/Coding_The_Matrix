@@ -1,8 +1,3 @@
-# version code 24ea27739109+
-coursera = 1
-# Please fill out this stencil and submit using the provided submission script.
-
-
 def getitem(v,k):
     """
     Return the value of entry k in v.
