@@ -9,11 +9,7 @@ def getitem(v,k):
     >>> v['b']
     0
     """
-    assert k in v.D
-    if k in v.f:
-       return v.f[k]
-    else:
-       return 0
+    
 
 def setitem(v,k,val):
     """
