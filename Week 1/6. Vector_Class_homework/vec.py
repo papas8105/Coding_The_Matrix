@@ -9,7 +9,11 @@ def getitem(v,k):
     >>> v['b']
     0
     """
-    
+    assert k in v.D
+    if k in v.f:
+    	return v.f[k]
+    else:
+    	return 0
 
 def setitem(v,k,val):
     """
@@ -52,20 +56,19 @@ def equal(u,v):
     The keys matter:
     >>> Vec({'a','b'},{'a':1}) == Vec({'a','b'},{'b':1})
     False
-
     The values matter:
     >>> Vec({'a','b'},{'a':1}) == Vec({'a','b'},{'a':2})
     False
 
     """
     assert u.D == v.D
-    for k in v.D:
-        if k not in v.f:
-              v.f[k] = 0
     for k in u.D:
-        if k not in u.f:
-              u.f[k] = 0
-    return v.f == u.f
+    	if k not in u.f:
+    		u.f[k] = 0
+    for k in v.D:
+    	if k not in v.f:
+    		v.f[k] = 0
+    return u.f == v.f
 
 def add(u,v):
     """
@@ -91,15 +94,17 @@ def add(u,v):
     True
     """
     assert u.D == v.D
-    addMap = {}
-    for key,val in u.f.items():
-        addMap[key] = val
-    for key,val in v.f.items():
-        if key in addMap:
-             addMap[key] += val
-        else:
-             addMap[key] = val
-    return Vec(u.D,addMap)
+    adddict = {}
+    for (key,value) in u.f.items():
+    	adddict[key] = value
+    for (key,value) in v.f.items():
+    	if key in add:
+    		adddict[key]  += value
+    	else:
+    		adddict[key] = value
+    return Vec( u.D , adddict )
+    
+    
 
 def dot(u,v):
     """
@@ -129,20 +134,35 @@ def dot(u,v):
     >>> v1 * v2
     12
     """
+    #this is one way that might work :) although not tested
+    """
+    assert u.D == v.D
+    dot = []
+    for k in u.D:
+    	dot.append( u.f[k] )
+    for k in v.D:
+    	for ii in range(len(dot)):
+    		dot[ii] = dot[ii] * v.f[k]
+    return sum(dot) 
+    """
+    #----------------------------------------------------------------
     assert u.D == v.D
 
-    dotSum = 0
-    dotMap = {}
+    dotsum = 0
+    dotdict = {}
 
-    for key, val in u.f.items():
-        dotMap[key] = val
+    for (key, value) in u.f.items():
+        dotdict[key] = value
 
-    for key, val in v.f.items():
-        if key in dotMap:
-            dotSum += (dotMap[key] * val)
+    for (key, value) in v.f.items():
+        if key in dotdict:
+            dotsum += (dotdict[key] * value)
 
-    return dotSum
-
+    return dotsum
+    
+    
+    
+    
 def scalar_mul(v, alpha):
     """
     Returns the scalar-vector product alpha times v.
@@ -158,12 +178,10 @@ def scalar_mul(v, alpha):
     >>> u == Vec({'x','y','z','w'},{'x':1,'y':2,'z':3,'w':4})
     True
     """
-    scalarMap = {}
-
-    for key, val in v.f.items():
-        scalarMap[key] = alpha * val
-
-    return Vec(v.D, scalarMap)
+    scalardict = {}
+    for ( key , value) in v.f.items():
+    	scalardict[key] = alpha * value
+    return Vec( v.D ,  scalardict )
 
 def neg(v):
     """
@@ -178,12 +196,10 @@ def neg(v):
     True
 
     """
-    negMap = {}
-
-    for key, val in v.f.items():
-        negMap[key] = -1 * val
-
-    return Vec(v.D, negMap)
+    negativedict = {}
+    for ( key , value ) in v.f.items():
+    	negativedict = (-1) * value
+    return Vec( v.D , negativedict )
 
 ###############################################################################################################################
 
